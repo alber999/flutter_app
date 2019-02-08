@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
+import 'package:flutter_app/bloc/ui/widgets/movie_item_widget.dart';
 
 class MovieListWidget extends StatelessWidget {
-  final AsyncSnapshot<PaginatedMovieListModel> snapshot;
+  final PaginatedMovieListModel paginatedMovieList;
 
-  MovieListWidget(this.snapshot);
+  MovieListWidget(this.paginatedMovieList);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        itemCount: snapshot.data.movieList.length,
+        itemCount: paginatedMovieList.movieList.length,
         gridDelegate:
             new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            'https://image.tmdb.org/t/p/w185${snapshot.data.movieList[index].poster_path}',
-            fit: BoxFit.cover,
-          );
+          return MovieItemWidget(paginatedMovieList.movieList[index]);
         });
   }
 }

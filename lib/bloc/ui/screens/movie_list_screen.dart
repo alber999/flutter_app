@@ -16,7 +16,7 @@ class MovieListScreen extends StatelessWidget {
         stream: moviesBloc.stream,
         builder: (context, AsyncSnapshot<PaginatedMovieListModel> snapshot) {
           if (snapshot.hasData) {
-            return MovieListWidget(snapshot);
+            return MovieListWidget(snapshot.data);
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           }
