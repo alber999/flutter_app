@@ -1,7 +1,6 @@
+import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
+import 'package:flutter_app/bloc/resources/movie_repository.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../models/paginated_movie_list_model.dart';
-import '../resources/movie_repository.dart';
 
 class MoviesBloc {
   final _repository = MovieRepository();

@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_app/bloc/config/config.dart';
+import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
 import 'package:http/http.dart' show Client;
-
-import '../models/paginated_movie_list_model.dart';
 
 class MovieProvider {
   Client client = Client();
