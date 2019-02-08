@@ -1,14 +1,14 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/std/screens/favorite_words_std_screen.dart';
+import 'package:flutter_app/std/screens/favorite_words_screen.dart';
 import 'package:flutter_app/std/widgets/word_row.dart';
 
-class WordsStdScreen extends StatefulWidget {
+class WordsScreen extends StatefulWidget {
   @override
-  WordsStdScreenState createState() => new WordsStdScreenState();
+  WordsScreenState createState() => new WordsScreenState();
 }
 
-class WordsStdScreenState extends State<WordsStdScreen> {
+class WordsScreenState extends State<WordsScreen> {
   final _words = <WordPair>[];
   final Set<WordPair> _favoriteWords = new Set<WordPair>();
 
@@ -30,8 +30,7 @@ class WordsStdScreenState extends State<WordsStdScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                FavoriteWordsStdScreen(items: _favoriteWords)));
+            builder: (context) => FavoriteWordsScreen(items: _favoriteWords)));
   }
 
   void _onTap(WordPair word, bool isFavorite) {

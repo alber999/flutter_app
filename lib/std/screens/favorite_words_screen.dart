@@ -2,10 +2,10 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/std/widgets/favorite_word_row.dart';
 
-class FavoriteWordsStdScreen extends StatelessWidget {
+class FavoriteWordsScreen extends StatelessWidget {
   final Set<WordPair> items;
 
-  FavoriteWordsStdScreen({
+  FavoriteWordsScreen({
     @required this.items,
   });
 
