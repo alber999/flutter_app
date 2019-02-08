@@ -8,8 +8,8 @@ class MoviesBloc {
 
   Observable<PaginatedMovieListModel> get stream => _subject.stream;
 
-  getAll() async {
-    PaginatedMovieListModel movieList = await _repository.getAll();
+  getAll([int page = 1]) async {
+    PaginatedMovieListModel movieList = await _repository.getAll(page);
     _subject.sink.add(movieList);
   }
 

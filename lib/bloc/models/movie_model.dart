@@ -20,7 +20,7 @@ class MovieModel {
     _video = data['video'];
     _vote_average = data['vote_average'];
     _title = data['title'];
-    _popularity = data['popularity'];
+    _popularity = data['popularity'].toDouble();
     _poster_path = data['poster_path'];
     _original_language = data['original_language'];
     _original_title = data['original_title'];

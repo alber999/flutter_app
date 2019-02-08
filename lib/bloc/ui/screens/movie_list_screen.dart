@@ -6,7 +6,8 @@ import 'package:flutter_app/bloc/ui/widgets/movie_list_widget.dart';
 class MovieListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    moviesBloc.getAll();
+    int page = 1;
+    moviesBloc.getAll(page);
     return Scaffold(
       appBar: AppBar(
         title: Text('BLoC Movies'),

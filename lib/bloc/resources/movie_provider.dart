@@ -9,9 +9,9 @@ class MovieProvider {
   Client client = Client();
   String _apiKey = moviesApiKey;
 
-  Future<PaginatedMovieListModel> getAll() async {
-    final response = await client
-        .get("http://api.themoviedb.org/3/movie/popular?api_key=$_apiKey");
+  Future<PaginatedMovieListModel> getAll([int page = 1]) async {
+    final response = await client.get(
+        "http://api.themoviedb.org/3/movie/popular?api_key=$_apiKey&page=$page");
     print(response.body.toString());
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
