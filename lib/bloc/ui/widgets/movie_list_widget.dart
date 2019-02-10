@@ -10,7 +10,6 @@ class MovieListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final moviesBloc = MoviesBlocProvider.of(context);
-
     moviesBloc.getAllNextPage();
 
     return NotificationListener(
