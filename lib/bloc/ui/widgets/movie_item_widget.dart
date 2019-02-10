@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/models/movie_model.dart';
 
 class MovieItemWidget extends StatelessWidget {
-  final MovieModel movie;
+  final MovieModel _movie;
 
-  MovieItemWidget(this.movie);
+  MovieItemWidget(this._movie);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class MovieItemWidget extends StatelessWidget {
       child: ClipRRect(
           borderRadius: new BorderRadius.circular(6.0),
           child: Image.network(
-            'https://image.tmdb.org/t/p/w185${movie.poster_path}',
+            'https://image.tmdb.org/t/p/w185${_movie.poster_path}',
             fit: BoxFit.fill,
           )),
     );
