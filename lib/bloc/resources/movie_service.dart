@@ -16,10 +16,8 @@ class MovieService {
     //print(response.body.toString());
     print("request page: $page");
     if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON
       return PaginatedMovieListModel.fromJson(json.decode(response.body));
     } else {
-      // If that call was not successful, throw an error.
       throw Exception('Failed to load post');
     }
   }
