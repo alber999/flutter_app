@@ -11,7 +11,7 @@ class MovieService {
 
   Future<PaginatedMovieListModel> getAll([int page = 1]) async {
     final response = await _client.get(
-        "http://api.themoviedb.org/3/movie/popular?api_key=$_apiKey&page=$page");
+        "https://api.themoviedb.org/3/movie/popular?api_key=$_apiKey&page=$page");
     //print(response.body.toString());
     print("request page: $page");
     if (response.statusCode == 200) {
