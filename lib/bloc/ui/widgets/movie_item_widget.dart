@@ -8,9 +8,14 @@ class MovieItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      'https://image.tmdb.org/t/p/w185${movie.poster_path}',
-      fit: BoxFit.cover,
+    return Container(
+      margin: EdgeInsets.all(1.0),
+      child: ClipRRect(
+          borderRadius: new BorderRadius.circular(6.0),
+          child: Image.network(
+            'https://image.tmdb.org/t/p/w185${movie.poster_path}',
+            fit: BoxFit.fill,
+          )),
     );
   }
 }

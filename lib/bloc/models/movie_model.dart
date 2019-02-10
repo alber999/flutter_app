@@ -2,7 +2,7 @@ class MovieModel {
   int _vote_count;
   int _id;
   bool _video;
-  var _vote_average;
+  double _vote_average;
   String _title;
   double _popularity;
   String _poster_path;
@@ -18,7 +18,7 @@ class MovieModel {
     _vote_count = data['vote_count'];
     _id = data['id'];
     _video = data['video'];
-    _vote_average = data['vote_average'];
+    _vote_average = data['vote_average'].toDouble();
     _title = data['title'];
     _popularity = data['popularity'].toDouble();
     _poster_path = data['poster_path'];
