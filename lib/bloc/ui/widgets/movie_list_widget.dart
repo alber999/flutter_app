@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/blocs/movies_bloc.dart';
 import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
-import 'package:flutter_app/bloc/models/pagination_model.dart';
 import 'package:flutter_app/bloc/resources/movies_bloc_provider.dart';
 import 'package:flutter_app/bloc/ui/widgets/movie_item_widget.dart';
 
@@ -10,20 +9,18 @@ class MovieListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PaginationModel pagination;
     final moviesBloc = MoviesBlocProvider.of(context);
 
-    moviesBloc.getAll();
+    moviesBloc.getAllNextPage();
 
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
-          _notificationHandler(notification, moviesBloc, pagination);
+          _notificationHandler(notification, moviesBloc);
         },
         child: StreamBuilder(
           stream: moviesBloc.all,
           builder: (BuildContext context, AsyncSnapshot<PaginatedMovieListModel> snapshot) {
             if (snapshot.hasData) {
-              pagination = snapshot.data.pagination;
               return _widget(snapshot);
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
@@ -46,11 +43,11 @@ class MovieListWidget extends StatelessWidget {
         });
   }
 
-  void _notificationHandler(ScrollNotification notification, MoviesBloc moviesBloc, PaginationModel pagination) {
+  void _notificationHandler(ScrollNotification notification, MoviesBloc moviesBloc) {
     if (notification is ScrollUpdateNotification) {
       if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
           !_scrollController.position.outOfRange) {
-        moviesBloc.getAll(pagination.page + 1);
+        moviesBloc.getAllNextPage();
       }
     }
   }

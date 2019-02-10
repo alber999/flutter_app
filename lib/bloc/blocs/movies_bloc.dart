@@ -1,20 +1,20 @@
-import 'package:flutter_app/bloc/models/movie_model.dart';
 import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
 import 'package:flutter_app/bloc/resources/movie_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MoviesBloc {
-  final List<MovieModel> _movieList = [];
+  final PaginatedMovieListModel _paginatedMovieList = PaginatedMovieListModel();
   final _repository = MovieRepository();
   final _subject = BehaviorSubject<PaginatedMovieListModel>();
 
   Observable<PaginatedMovieListModel> get all => _subject.stream;
 
-  getAll([int page]) async {
-    final PaginatedMovieListModel paginatedMovieList = await _repository.getAll(page);
+  getAllNextPage() async {
+    final PaginatedMovieListModel data = await _repository.getAllNextPage(_paginatedMovieList.pagination);
 
-    _movieList.addAll(paginatedMovieList.movieList);
-    _subject.sink.add(PaginatedMovieListModel(paginatedMovieList.pagination, _movieList));
+    _paginatedMovieList.movieList.addAll(data.movieList);
+    _paginatedMovieList.pagination = data.pagination;
+    _subject.sink.add(_paginatedMovieList);
   }
 
   dispose() {
