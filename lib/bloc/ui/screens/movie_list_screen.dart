@@ -5,12 +5,12 @@ import 'package:flutter_app/bloc/ui/widgets/movie_list_widget.dart';
 class MovieListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MoviesBlocProvider(
-        child: Scaffold(
-      appBar: AppBar(
-        title: Text('BLoC Movies'),
-      ),
-      body: MovieListWidget(),
-    ));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('BLoC Movies'),
+        ),
+        body: MoviesBlocProvider(
+          child: MovieListWidget(),
+        ));
   }
 }
