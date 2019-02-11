@@ -1,4 +1,5 @@
 import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
+import 'package:flutter_app/bloc/models/pagination_model.dart';
 import 'package:flutter_app/bloc/resources/movie_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,16 +10,14 @@ class MoviesBloc {
 
   Observable<PaginatedMovieListModel> get all => _subject.stream;
 
-  getAllFirstPage() async {
+  MoviesBloc reset() {
     _paginatedMovieList.movieList.clear();
-    _sinkAll(await _repository.getAllFirstPage());
+    _paginatedMovieList.pagination = PaginationModel();
+    return this;
   }
 
   getAllNextPage() async {
-    _sinkAll(await _repository.getAllNextPage(_paginatedMovieList.pagination));
-  }
-
-  _sinkAll(PaginatedMovieListModel data) {
+    final PaginatedMovieListModel data = await _repository.getAllNextPage(_paginatedMovieList.pagination);
     _paginatedMovieList.movieList.addAll(data.movieList);
     _paginatedMovieList.pagination = data.pagination;
     _subject.sink.add(_paginatedMovieList);

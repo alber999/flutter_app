@@ -6,13 +6,11 @@ import 'package:flutter_app/bloc/ui/widgets/movie_item_widget.dart';
 
 class MovieListWidget extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
-  final _snackBar = SnackBar(content: Text('Loading'), duration: Duration(milliseconds: 10),);
 
   @override
   Widget build(BuildContext context) {
-
     final moviesBloc = MoviesBlocProvider.of(context);
-    moviesBloc.getAllFirstPage();
+    moviesBloc.getAllNextPage();
 
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
@@ -23,7 +21,9 @@ class MovieListWidget extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot<PaginatedMovieListModel> snapshot) {
             if (snapshot.hasData) {
               return RefreshIndicator(
-                  onRefresh: () {return _handleRefresh(moviesBloc);},
+                  onRefresh: () {
+                    return _handleRefresh(moviesBloc);
+                  },
                   child: _widget(snapshot));
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
@@ -36,27 +36,26 @@ class MovieListWidget extends StatelessWidget {
 
   Widget _widget(AsyncSnapshot<PaginatedMovieListModel> snapshot) {
     return GridView.builder(
-          itemCount: snapshot.data.movieList.length,
-          padding: const EdgeInsets.all(16.0),
-          gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
-          controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            return MovieItemWidget(snapshot.data.movieList[index]);
-          });
+        itemCount: snapshot.data.movieList.length,
+        padding: const EdgeInsets.all(16.0),
+        gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          return MovieItemWidget(snapshot.data.movieList[index]);
+        });
   }
 
   _handleNotification(BuildContext context, ScrollNotification notification, MoviesBloc moviesBloc) {
     //print(_scrollController.position.extentAfter);
-    if (notification is ScrollStartNotification) {
+    if (notification is ScrollEndNotification) {
       if (0 == _scrollController.position.extentAfter) {
-        Scaffold.of(context).showSnackBar(_snackBar);
         moviesBloc.getAllNextPage();
       }
     }
   }
 
   _handleRefresh(MoviesBloc moviesBloc) async {
-    moviesBloc.getAllFirstPage();
+    moviesBloc.reset().getAllNextPage();
   }
 }
