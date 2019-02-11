@@ -6,23 +6,25 @@ import 'package:flutter_app/bloc/ui/widgets/movie_item_widget.dart';
 
 class MovieListWidget extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
+  final _snackBar = SnackBar(content: Text('Loading'), duration: Duration(milliseconds: 10),);
 
   @override
   Widget build(BuildContext context) {
+
     final moviesBloc = MoviesBlocProvider.of(context);
     moviesBloc.getAllFirstPage();
 
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
-          _notificationHandler(notification, moviesBloc);
+          _handleNotification(context, notification, moviesBloc);
         },
         child: StreamBuilder(
           stream: moviesBloc.all,
           builder: (BuildContext context, AsyncSnapshot<PaginatedMovieListModel> snapshot) {
             if (snapshot.hasData) {
               return RefreshIndicator(
-                  child: _widget(snapshot),
-                  onRefresh: () {return _handleRefresh(moviesBloc);});
+                  onRefresh: () {return _handleRefresh(moviesBloc);},
+                  child: _widget(snapshot));
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
@@ -30,11 +32,6 @@ class MovieListWidget extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           },
         ));
-  }
-
-  _handleRefresh(MoviesBloc moviesBloc) async {
-    moviesBloc.getAllFirstPage();
-    return null;
   }
 
   Widget _widget(AsyncSnapshot<PaginatedMovieListModel> snapshot) {
@@ -49,12 +46,17 @@ class MovieListWidget extends StatelessWidget {
           });
   }
 
-  void _notificationHandler(ScrollNotification notification, MoviesBloc moviesBloc) {
+  _handleNotification(BuildContext context, ScrollNotification notification, MoviesBloc moviesBloc) {
     //print(_scrollController.position.extentAfter);
-    if (notification is ScrollEndNotification) {
+    if (notification is ScrollStartNotification) {
       if (0 == _scrollController.position.extentAfter) {
+        Scaffold.of(context).showSnackBar(_snackBar);
         moviesBloc.getAllNextPage();
       }
     }
+  }
+
+  _handleRefresh(MoviesBloc moviesBloc) async {
+    moviesBloc.getAllFirstPage();
   }
 }
