@@ -47,7 +47,6 @@ class MovieListWidget extends StatelessWidget {
   }
 
   _handleNotification(BuildContext context, ScrollNotification notification, MoviesBloc moviesBloc) {
-    //print(_scrollController.position.extentAfter);
     if (notification is ScrollEndNotification) {
       if (0 == _scrollController.position.extentAfter) {
         moviesBloc.getAllNextPage();
