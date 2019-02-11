@@ -10,7 +10,7 @@ class MovieListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final moviesBloc = MoviesBlocProvider.of(context);
-    moviesBloc.getAllNextPage();
+    moviesBloc.getAllFirstPage();
 
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
@@ -20,7 +20,9 @@ class MovieListWidget extends StatelessWidget {
           stream: moviesBloc.all,
           builder: (BuildContext context, AsyncSnapshot<PaginatedMovieListModel> snapshot) {
             if (snapshot.hasData) {
-              return _widget(snapshot);
+              return RefreshIndicator(
+                  child: _widget(snapshot),
+                  onRefresh: () {return _handleRefresh(moviesBloc);});
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
@@ -28,6 +30,11 @@ class MovieListWidget extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           },
         ));
+  }
+
+  _handleRefresh(MoviesBloc moviesBloc) async {
+    moviesBloc.getAllFirstPage();
+    return null;
   }
 
   Widget _widget(AsyncSnapshot<PaginatedMovieListModel> snapshot) {
@@ -43,9 +50,9 @@ class MovieListWidget extends StatelessWidget {
   }
 
   void _notificationHandler(ScrollNotification notification, MoviesBloc moviesBloc) {
-    if (notification is ScrollUpdateNotification) {
-      if (_scrollController.offset >= _scrollController.position.maxScrollExtent &&
-          !_scrollController.position.outOfRange) {
+    //print(_scrollController.position.extentAfter);
+    if (notification is ScrollEndNotification) {
+      if (0 == _scrollController.position.extentAfter) {
         moviesBloc.getAllNextPage();
       }
     }
