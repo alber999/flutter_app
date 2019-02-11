@@ -32,14 +32,14 @@ class MovieListWidget extends StatelessWidget {
 
   Widget _widget(AsyncSnapshot<PaginatedMovieListModel> snapshot) {
     return GridView.builder(
-        itemCount: snapshot.data.movieList.length,
-        padding: const EdgeInsets.all(16.0),
-        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return MovieItemWidget(snapshot.data.movieList[index]);
-        });
+          itemCount: snapshot.data.movieList.length,
+          padding: const EdgeInsets.all(16.0),
+          gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
+          controller: _scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return MovieItemWidget(snapshot.data.movieList[index]);
+          });
   }
 
   void _notificationHandler(ScrollNotification notification, MoviesBloc moviesBloc) {
