@@ -21,11 +21,11 @@ class MoviesBloc {
 
     final PaginatedMovieListModel data = await _repository.getAllNextPage(_paginatedMovieList.pagination);
 
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      _paginatedMovieList.movieList.addAll(data.movieList);
-      _paginatedMovieList.pagination = data.pagination;
-      _subject.sink.add(_paginatedMovieList);
-    });
+    //Future.delayed(const Duration(milliseconds: 1000), () {
+    _paginatedMovieList.movieList.addAll(data.movieList);
+    _paginatedMovieList.pagination = data.pagination;
+    _subject.sink.add(_paginatedMovieList);
+    //});
   }
 
   dispose() {

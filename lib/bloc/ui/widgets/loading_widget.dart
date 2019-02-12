@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/resources/loader_bloc_provider.dart';
+import 'package:flutter_app/bloc/ui/widgets/progress_indicator_widget.dart';
 
-class LoaderWidget extends StatelessWidget {
+class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loaderBloc = LoaderBlocProvider.of(context);
@@ -15,16 +16,15 @@ class LoaderWidget extends StatelessWidget {
 
   Widget _loader(bool isLoading) {
     return isLoading
-        ? new Align(
-            child: new Container(
+        ? Align(
+            child: Container(
               width: 70.0,
               height: 70.0,
-              child: new Padding(
-                  padding: const EdgeInsets.all(5.0), child: new Center(child: new CircularProgressIndicator())),
+              child: Padding(padding: const EdgeInsets.all(5.0), child: ProgressIndicatorWidget()),
             ),
             alignment: FractionalOffset.bottomCenter,
           )
-        : new SizedBox(
+        : SizedBox(
             width: 0.0,
             height: 0.0,
           );

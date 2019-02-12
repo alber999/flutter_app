@@ -5,6 +5,7 @@ import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
 import 'package:flutter_app/bloc/resources/loader_bloc_provider.dart';
 import 'package:flutter_app/bloc/resources/movies_bloc_provider.dart';
 import 'package:flutter_app/bloc/ui/widgets/movie_item_widget.dart';
+import 'package:flutter_app/bloc/ui/widgets/progress_indicator_widget.dart';
 
 class MovieListWidget extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
@@ -33,7 +34,7 @@ class MovieListWidget extends StatelessWidget {
                 return Text(snapshot.error.toString());
               }
 
-              return Center(child: CircularProgressIndicator());
+              return ProgressIndicatorWidget();
             }));
   }
 
