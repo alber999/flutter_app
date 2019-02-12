@@ -17,10 +17,9 @@ class MoviesBloc {
   }
 
   getAllNextPage() async {
-    //_subject.sink.add(null);
-
     final PaginatedMovieListModel data = await _repository.getAllNextPage(_paginatedMovieList.pagination);
 
+    //uncomment to add delay to stream to be available
     //Future.delayed(const Duration(milliseconds: 1000), () {
     _paginatedMovieList.movieList.addAll(data.movieList);
     _paginatedMovieList.pagination = data.pagination;
