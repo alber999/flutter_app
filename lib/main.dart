@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.teal,
       ),
       initialRoute: Routes.initialRoute,
       routes: Routes.routes,

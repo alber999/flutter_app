@@ -6,8 +6,8 @@ class ProgressIndicatorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: SpinKitCircle(
-      color: Colors.blue,
-      size: 50.0,
+      color: Colors.teal,
+      size: 50,
     ));
   }
 }
