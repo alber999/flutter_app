@@ -17,12 +17,15 @@ class MoviesBloc {
   }
 
   getAllNextPage() async {
-    _subject.sink.add(null);
+    //_subject.sink.add(null);
 
     final PaginatedMovieListModel data = await _repository.getAllNextPage(_paginatedMovieList.pagination);
-    _paginatedMovieList.movieList.addAll(data.movieList);
-    _paginatedMovieList.pagination = data.pagination;
-    _subject.sink.add(_paginatedMovieList);
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      _paginatedMovieList.movieList.addAll(data.movieList);
+      _paginatedMovieList.pagination = data.pagination;
+      _subject.sink.add(_paginatedMovieList);
+    });
   }
 
   dispose() {
