@@ -1,16 +1,16 @@
 import 'package:flutter_app/movies/models/movie_model.dart';
 import 'package:flutter_app/movies/models/pagination_model.dart';
 
-class PaginatedMovieListModel {
-  final List<MovieModel> _movieList = [];
+class PaginatedMoviesModel {
+  final List<MovieModel> _movies = [];
   PaginationModel _pagination;
 
-  PaginatedMovieListModel();
+  PaginatedMoviesModel();
 
-  PaginatedMovieListModel.fromJson(Map<String, dynamic> parsedJson) {
+  PaginatedMoviesModel.fromJson(Map<String, dynamic> parsedJson) {
     _pagination = PaginationModel(parsedJson);
     for (int i = 0; i < parsedJson['results'].length; i++) {
-      _movieList.add(MovieModel(parsedJson['results'][i]));
+      _movies.add(MovieModel(parsedJson['results'][i]));
     }
   }
 
@@ -20,5 +20,5 @@ class PaginatedMovieListModel {
     _pagination = pagination;
   }
 
-  List<MovieModel> get movieList => _movieList;
+  List<MovieModel> get movies => _movies;
 }

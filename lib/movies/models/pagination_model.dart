@@ -1,19 +1,19 @@
 class PaginationModel {
   int _page;
-  int _total_pages;
-  int _total_results;
+  int _totalPages;
+  int _totalResults;
 
   PaginationModel([dynamic data]) {
     if (null != data) {
       _page = data['page'];
-      _total_pages = data['total_pages'];
-      _total_results = data['total_results'];
+      _totalPages = data['total_pages'];
+      _totalResults = data['total_results'];
     }
   }
 
   int get page => _page;
 
-  int get total_pages => _total_pages;
+  int get totalPages => _totalPages;
 
-  int get total_results => _total_results;
+  int get totalResults => _totalResults;
 }

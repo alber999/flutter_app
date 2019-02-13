@@ -13,7 +13,7 @@ class MovieItemWidget extends StatelessWidget {
       child: ClipRRect(
           borderRadius: new BorderRadius.circular(6.0),
           child: Image.network(
-            'https://image.tmdb.org/t/p/w185${_movie.poster_path}',
+            'https://image.tmdb.org/t/p/w185${_movie.posterPath}',
             fit: BoxFit.fill,
           )),
     );

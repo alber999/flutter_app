@@ -1,63 +1,63 @@
 class MovieModel {
-  int _vote_count;
+  int _voteCount;
   int _id;
   bool _video;
-  double _vote_average;
+  double _voteAverage;
   String _title;
   double _popularity;
-  String _poster_path;
-  String _original_language;
-  String _original_title;
-  List<int> _genre_ids = [];
-  String _backdrop_path;
+  String _posterPath;
+  String _originalLanguage;
+  String _originalTitle;
+  List<int> _genreIds = [];
+  String _backdropPath;
   bool _adult;
   String _overview;
-  String _release_date;
+  String _releaseDate;
 
   MovieModel(dynamic data) {
-    _vote_count = data['vote_count'];
+    _voteCount = data['vote_count'];
     _id = data['id'];
     _video = data['video'];
-    _vote_average = data['vote_average'].toDouble();
+    _voteAverage = data['vote_average'].toDouble();
     _title = data['title'];
     _popularity = data['popularity'].toDouble();
-    _poster_path = data['poster_path'];
-    _original_language = data['original_language'];
-    _original_title = data['original_title'];
+    _posterPath = data['poster_path'];
+    _originalLanguage = data['original_language'];
+    _originalTitle = data['original_title'];
     for (int i = 0; i < data['genre_ids'].length; i++) {
-      _genre_ids.add(data['genre_ids'][i]);
+      _genreIds.add(data['genre_ids'][i]);
     }
-    _backdrop_path = data['backdrop_path'];
+    _backdropPath = data['backdrop_path'];
     _adult = data['adult'];
     _overview = data['overview'];
-    _release_date = data['release_date'];
+    _releaseDate = data['release_date'];
   }
 
-  String get release_date => _release_date;
+  String get releaseDate => _releaseDate;
 
   String get overview => _overview;
 
   bool get adult => _adult;
 
-  String get backdrop_path => _backdrop_path;
+  String get backdropPath => _backdropPath;
 
-  List<int> get genre_ids => _genre_ids;
+  List<int> get genreIds => _genreIds;
 
-  String get original_title => _original_title;
+  String get originalTitle => _originalTitle;
 
-  String get original_language => _original_language;
+  String get originalLanguage => _originalLanguage;
 
-  String get poster_path => _poster_path;
+  String get posterPath => _posterPath;
 
   double get popularity => _popularity;
 
   String get title => _title;
 
-  double get vote_average => _vote_average;
+  double get voteAverage => _voteAverage;
 
   bool get video => _video;
 
   int get id => _id;
 
-  int get vote_count => _vote_count;
+  int get voteCount => _voteCount;
 }

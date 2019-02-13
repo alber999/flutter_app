@@ -1,31 +1,31 @@
-import 'package:flutter_app/movies/models/paginated_movie_list_model.dart';
+import 'package:flutter_app/movies/models/paginated_movies_model.dart';
 import 'package:flutter_app/movies/models/pagination_model.dart';
 import 'package:flutter_app/movies/resources/movie_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MoviesBloc {
-  final PaginatedMovieListModel _paginatedMovieList = PaginatedMovieListModel();
+  final PaginatedMoviesModel _paginatedMovies = PaginatedMoviesModel();
 
   final _repository = MovieRepository();
-  final _subject = BehaviorSubject<PaginatedMovieListModel>();
+  final _subject = BehaviorSubject<PaginatedMoviesModel>();
 
-  Observable<PaginatedMovieListModel> get all => _subject.stream;
+  Observable<PaginatedMoviesModel> get all => _subject.stream;
 
   MoviesBloc reset() {
-    _paginatedMovieList.movieList.clear();
-    _paginatedMovieList.pagination = PaginationModel();
+    _paginatedMovies.movies.clear();
+    _paginatedMovies.pagination = PaginationModel();
     return this;
   }
 
   getAllNextPage() async {
-    final PaginatedMovieListModel data =
-        await _repository.getAllNextPage(_paginatedMovieList.pagination);
+    final PaginatedMoviesModel data =
+    await _repository.getAllNextPage(_paginatedMovies.pagination);
 
     //uncomment to add delay to stream
     //Future.delayed(const Duration(milliseconds: 1000), () {
-    _paginatedMovieList.movieList.addAll(data.movieList);
-    _paginatedMovieList.pagination = data.pagination;
-    _subject.sink.add(_paginatedMovieList);
+    _paginatedMovies.movies.addAll(data.movies);
+    _paginatedMovies.pagination = data.pagination;
+    _subject.sink.add(_paginatedMovies);
     //});
   }
 
