@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/models/movie_model.dart';
+import 'package:flutter_app/movies/models/movie_model.dart';
 
 class MovieItemWidget extends StatelessWidget {
   final MovieModel _movie;

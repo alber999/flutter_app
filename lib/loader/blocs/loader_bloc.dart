@@ -3,13 +3,13 @@ import 'package:rxdart/rxdart.dart';
 class LoaderBloc {
   final _subject = BehaviorSubject<bool>();
 
-  Observable<bool> get load => _subject.stream;
+  Observable<bool> get isLoading => _subject.stream;
 
-  show() async {
+  start() async {
     _subject.sink.add(true);
   }
 
-  hide() async {
+  stop() async {
     _subject.sink.add(false);
   }
 

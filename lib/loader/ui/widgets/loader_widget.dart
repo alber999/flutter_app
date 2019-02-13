@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/resources/loader_bloc_provider.dart';
-import 'package:flutter_app/bloc/ui/widgets/progress_indicator_widget.dart';
+import 'package:flutter_app/app/app_injector.dart';
+import 'package:flutter_app/loader/ui/widgets/progress_indicator_widget.dart';
 
-class LoadingWidget extends StatelessWidget {
+class LoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loaderBloc = LoaderBlocProvider.of(context);
+    final loaderBloc = AppInjector.of(context).loaderBloc;
 
     return StreamBuilder(
-        stream: loaderBloc.load,
+        stream: loaderBloc.isLoading,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           return _loader(snapshot.hasData ? snapshot.data : false);
         });

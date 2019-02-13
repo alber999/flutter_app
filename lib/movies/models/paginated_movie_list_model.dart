@@ -1,5 +1,5 @@
-import 'package:flutter_app/bloc/models/movie_model.dart';
-import 'package:flutter_app/bloc/models/pagination_model.dart';
+import 'package:flutter_app/movies/models/movie_model.dart';
+import 'package:flutter_app/movies/models/pagination_model.dart';
 
 class PaginatedMovieListModel {
   final List<MovieModel> _movieList = [];

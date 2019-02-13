@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/blocs/loader_bloc.dart';
-import 'package:flutter_app/bloc/blocs/movies_bloc.dart';
-import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
-import 'package:flutter_app/bloc/resources/loader_bloc_provider.dart';
-import 'package:flutter_app/bloc/resources/movies_bloc_provider.dart';
-import 'package:flutter_app/bloc/ui/widgets/movie_item_widget.dart';
-import 'package:flutter_app/bloc/ui/widgets/progress_indicator_widget.dart';
+import 'package:flutter_app/app/app_injector.dart';
+import 'package:flutter_app/loader/blocs/loader_bloc.dart';
+import 'package:flutter_app/loader/ui/widgets/progress_indicator_widget.dart';
+import 'package:flutter_app/movies/blocs/movies_bloc.dart';
+import 'package:flutter_app/movies/models/paginated_movie_list_model.dart';
+import 'package:flutter_app/movies/ui/widgets/movie_item_widget.dart';
 
 class MovieListWidget extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final moviesBloc = MoviesBlocProvider.of(context);
-    final loaderBloc = LoaderBlocProvider.of(context);
+    final MoviesBloc moviesBloc = AppInjector.of(context).moviesBloc;
+    final LoaderBloc loaderBloc = AppInjector.of(context).loaderBloc;
     moviesBloc.getAllNextPage();
 
     return NotificationListener(
@@ -24,7 +23,7 @@ class MovieListWidget extends StatelessWidget {
             stream: moviesBloc.all,
             builder: (BuildContext context, AsyncSnapshot<PaginatedMovieListModel> snapshot) {
               if (snapshot.hasData) {
-                loaderBloc.hide();
+                loaderBloc.stop();
                 return RefreshIndicator(
                     onRefresh: () {
                       return _handleRefresh(moviesBloc);
@@ -50,11 +49,11 @@ class MovieListWidget extends StatelessWidget {
         });
   }
 
-  _handleNotification(
-      BuildContext context, ScrollNotification notification, MoviesBloc moviesBloc, LoaderBloc loaderBloc) {
+  _handleNotification(BuildContext context, ScrollNotification notification, MoviesBloc moviesBloc,
+      LoaderBloc loaderBloc) {
     if (notification is ScrollEndNotification) {
       if (0 == _scrollController.position.extentAfter) {
-        loaderBloc.show();
+        loaderBloc.start();
         moviesBloc.getAllNextPage();
       }
     }

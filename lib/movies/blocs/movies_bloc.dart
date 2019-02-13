@@ -1,10 +1,11 @@
-import 'package:flutter_app/bloc/models/paginated_movie_list_model.dart';
-import 'package:flutter_app/bloc/models/pagination_model.dart';
-import 'package:flutter_app/bloc/resources/movie_repository.dart';
+import 'package:flutter_app/movies/models/paginated_movie_list_model.dart';
+import 'package:flutter_app/movies/models/pagination_model.dart';
+import 'package:flutter_app/movies/resources/movie_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MoviesBloc {
   final PaginatedMovieListModel _paginatedMovieList = PaginatedMovieListModel();
+
   final _repository = MovieRepository();
   final _subject = BehaviorSubject<PaginatedMovieListModel>();
 
@@ -17,7 +18,8 @@ class MoviesBloc {
   }
 
   getAllNextPage() async {
-    final PaginatedMovieListModel data = await _repository.getAllNextPage(_paginatedMovieList.pagination);
+    final PaginatedMovieListModel data =
+        await _repository.getAllNextPage(_paginatedMovieList.pagination);
 
     //uncomment to add delay to stream to be available
     //Future.delayed(const Duration(milliseconds: 1000), () {
