@@ -3,17 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter_app/app/app_config.dart';
 import 'package:flutter_app/movies/models/paginated_movies_model.dart';
-import 'package:flutter_app/movies/models/pagination_model.dart';
 import 'package:http/http.dart' show Client;
 
 class MovieService {
   Client _client = Client();
   String _apiKey = moviesApiKey;
 
-  Future<PaginatedMoviesModel> getAllNextPage(PaginationModel pagination) async {
-    final int page = (null != pagination && null != pagination.page) ? pagination.page + 1 : 1;
-    print("request page: $page");
-
+  Future<PaginatedMoviesModel> getPage(int page) async {
     final response =
         await _client.get("https://api.themoviedb.org/3/movie/popular?api_key=$_apiKey&page=$page");
 
