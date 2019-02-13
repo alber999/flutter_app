@@ -12,15 +12,25 @@ class MoviesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MoviesBloc moviesBloc = AppInjector
-        .of(context)
-        .moviesBloc;
-    final LoaderBloc loaderBloc = AppInjector
-        .of(context)
-        .loaderBloc;
+    final MoviesBloc moviesBloc = AppInjector.of(context).moviesBloc;
+    final LoaderBloc loaderBloc = AppInjector.of(context).loaderBloc;
 
     return Scaffold(
-        appBar: AppBar(title: Text('BLoC Movies')),
+        appBar: AppBar(
+          title: const Text('BLoC Movies'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.arrow_drop_up),
+              onPressed: () {
+                _scrollController.animateTo(
+                  0.0,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 500),
+                );
+              },
+            ),
+          ],
+        ),
         body: Stack(children: <Widget>[
           _moviesWidget(context, moviesBloc, loaderBloc),
           _loaderWidget(loaderBloc)
