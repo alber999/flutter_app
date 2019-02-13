@@ -28,7 +28,7 @@ class MovieListWidget extends StatelessWidget {
                     onRefresh: () {
                       return _handleRefresh(moviesBloc);
                     },
-                    child: _widget(snapshot));
+                    child: _widget(context, snapshot));
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
@@ -37,11 +37,15 @@ class MovieListWidget extends StatelessWidget {
             }));
   }
 
-  Widget _widget(AsyncSnapshot<PaginatedMoviesModel> snapshot) {
+  Widget _widget(BuildContext context, AsyncSnapshot<PaginatedMoviesModel> snapshot) {
     return GridView.builder(
         itemCount: snapshot.data.movies.length,
         padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0, bottom: 70.0),
-        gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
+        //gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: (MediaQuery.of(context).size.width / 225).ceil(),
+          childAspectRatio: 0.75,
+        ),
         controller: _scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
