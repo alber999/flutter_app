@@ -18,13 +18,7 @@ class MoviesBloc {
   }
 
   getAllNextPage() async {
-    final int page =
-        (null != _paginatedMovies.pagination && null != _paginatedMovies.pagination.page)
-            ? _paginatedMovies.pagination.page + 1
-            : 1;
-
-    print("request page: $page");
-    final PaginatedMoviesModel data = await _repository.getPage(page);
+    final PaginatedMoviesModel data = await _repository.getAllNextPage(_paginatedMovies.pagination);
 
     //uncomment to add delay to stream
     //Future.delayed(const Duration(milliseconds: 1000), () {

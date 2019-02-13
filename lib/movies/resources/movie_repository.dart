@@ -7,7 +7,7 @@ import 'package:flutter_app/movies/resources/movie_service.dart';
 class MovieRepository {
   final _service = MovieService();
 
-  Future<PaginatedMoviesModel> getPage(PaginationModel pagination) {
+  Future<PaginatedMoviesModel> getAllNextPage(PaginationModel pagination) {
     final int page = (null != pagination && null != pagination.page) ? pagination.page + 1 : 1;
     print("request page: $page");
 
