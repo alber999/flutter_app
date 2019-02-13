@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app/app_injector.dart';
 import 'package:flutter_app/loader/blocs/loader_bloc.dart';
+import 'package:flutter_app/loader/ui/widgets/loader_widget.dart';
 import 'package:flutter_app/loader/ui/widgets/progress_indicator_widget.dart';
 import 'package:flutter_app/movies/blocs/movies_bloc.dart';
 import 'package:flutter_app/movies/models/paginated_movies_model.dart';
-import 'package:flutter_app/movies/ui/widgets/movie_item_widget.dart';
+import 'package:flutter_app/movies/ui/widgets/movies_widget.dart';
 
-class MovieListWidget extends StatelessWidget {
+class MoviesScreen extends StatelessWidget {
   final ScrollController _scrollController = new ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final MoviesBloc moviesBloc = AppInjector.of(context).moviesBloc;
-    final LoaderBloc loaderBloc = AppInjector.of(context).loaderBloc;
-    moviesBloc.getAllNextPage();
+    final MoviesBloc moviesBloc = AppInjector
+        .of(context)
+        .moviesBloc;
+    final LoaderBloc loaderBloc = AppInjector
+        .of(context)
+        .loaderBloc;
 
+    return Scaffold(
+        appBar: AppBar(title: Text('BLoC Movies')),
+        body: Stack(children: <Widget>[
+          _moviesWidget(context, moviesBloc, loaderBloc),
+          _loaderWidget(loaderBloc)
+        ]));
+  }
+
+  Widget _moviesWidget(BuildContext context, MoviesBloc moviesBloc, LoaderBloc loaderBloc) {
+    moviesBloc.getAllNextPage();
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
           _handleNotification(context, notification, moviesBloc, loaderBloc);
@@ -28,7 +42,7 @@ class MovieListWidget extends StatelessWidget {
                     onRefresh: () {
                       return _handleRefresh(moviesBloc);
                     },
-                    child: _widget(context, snapshot));
+                    child: MoviesWidget(snapshot.data, _scrollController));
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
@@ -37,19 +51,11 @@ class MovieListWidget extends StatelessWidget {
             }));
   }
 
-  Widget _widget(BuildContext context, AsyncSnapshot<PaginatedMoviesModel> snapshot) {
-    return GridView.builder(
-        itemCount: snapshot.data.movies.length,
-        padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0, bottom: 70.0),
-        //gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: (MediaQuery.of(context).size.width / 225).ceil(),
-          childAspectRatio: 0.75,
-        ),
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return MovieItemWidget(snapshot.data.movies[index]);
+  Widget _loaderWidget(LoaderBloc loaderBloc) {
+    return StreamBuilder(
+        stream: loaderBloc.isLoading,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          return LoaderWidget(snapshot.hasData ? snapshot.data : false);
         });
   }
 
