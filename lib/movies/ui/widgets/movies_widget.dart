@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/movies/models/movie_model.dart';
 import 'package:flutter_app/movies/models/paginated_movies_model.dart';
 import 'package:flutter_app/movies/ui/widgets/movies_header_widget.dart';
 import 'package:flutter_app/movies/ui/widgets/movies_item_widget.dart';
@@ -11,6 +12,9 @@ class MoviesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<MovieModel> movies = List.from(_paginatedMovies.movies);
+    movies.removeAt(0);
+    
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
@@ -31,9 +35,9 @@ class MoviesWidget extends StatelessWidget {
                   return Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(4.0),
-                      child: MoviesItemWidget(_paginatedMovies.movies[index]));
+                      child: MoviesItemWidget(movies[index]));
                 },
-                childCount: _paginatedMovies.movies.length,
+                childCount: movies.length,
               ),
             )),
       ],
