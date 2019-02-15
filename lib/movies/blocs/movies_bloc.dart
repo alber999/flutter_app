@@ -5,7 +5,6 @@ import 'package:rxdart/rxdart.dart';
 
 class MoviesBloc {
   final PaginatedMoviesModel _paginatedMovies = PaginatedMoviesModel();
-
   final _repository = MovieRepository();
   final _subject = BehaviorSubject<PaginatedMoviesModel>();
 
@@ -26,6 +25,10 @@ class MoviesBloc {
     _paginatedMovies.pagination = data.pagination;
     _subject.sink.add(_paginatedMovies);
     //});
+  }
+
+  bool hasData() {
+    return _paginatedMovies.movies.isNotEmpty;
   }
 
   dispose() {

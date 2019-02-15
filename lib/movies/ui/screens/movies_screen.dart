@@ -16,29 +16,16 @@ class MoviesScreen extends StatelessWidget {
     final LoaderBloc loaderBloc = AppInjector.of(context).loaderBloc;
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('BLoC Movies'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.arrow_drop_up),
-              onPressed: () {
-                _scrollController.animateTo(
-                  0.0,
-                  curve: Curves.easeOut,
-                  duration: const Duration(milliseconds: 500),
-                );
-              },
-            ),
-          ],
-        ),
         body: Stack(children: <Widget>[
-          _moviesWidget(context, moviesBloc, loaderBloc),
-          _loaderWidget(loaderBloc)
-        ]));
+      _moviesWidget(context, moviesBloc, loaderBloc),
+      _loaderWidget(loaderBloc)
+    ]));
   }
 
   Widget _moviesWidget(BuildContext context, MoviesBloc moviesBloc, LoaderBloc loaderBloc) {
-    moviesBloc.getAllNextPage();
+    if (!moviesBloc.hasData()) {
+      moviesBloc.getAllNextPage();
+    }
     return NotificationListener(
         onNotification: (ScrollNotification notification) {
           _handleNotification(context, notification, moviesBloc, loaderBloc);
@@ -46,13 +33,14 @@ class MoviesScreen extends StatelessWidget {
         child: StreamBuilder(
             stream: moviesBloc.all,
             builder: (BuildContext context, AsyncSnapshot<PaginatedMoviesModel> snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.hasData && 0 < snapshot.data.movies.length) {
                 loaderBloc.stop();
                 return RefreshIndicator(
                     onRefresh: () {
                       return _handleRefresh(moviesBloc);
                     },
-                    child: MoviesWidget(snapshot.data, _scrollController));
+                    child: MoviesWidget(snapshot.data.movies[0],
+                        snapshot.data.movies.skip(1).toList(), _scrollController));
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }

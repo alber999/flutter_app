@@ -1,38 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/movies/models/movie_model.dart';
+import 'package:flutter_app/movies/ui/widgets/movies_details_widget.dart';
+import 'package:flutter_app/movies/ui/animations/route_animation.dart';
 
-class MoviesHeaderWidget extends SliverPersistentHeaderDelegate {
+class MoviesHeaderWidget extends StatelessWidget {
+  final String _title;
   final MovieModel _movie;
+  final ScrollController _scrollController;
 
-  MoviesHeaderWidget(this._movie);
+  MoviesHeaderWidget(this._title, this._movie, this._scrollController);
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return GridTile(
-        footer: GridTileBar(
-            backgroundColor: Colors.black54,
-            title: Text(_movie.originalTitle,
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24.0)),
-            subtitle:
-                Text(_movie.releaseDate, style: TextStyle(color: Colors.white, fontSize: 14.0)),
-            trailing: Text(
-              '${_movie.voteAverage}/10',
-              style: new TextStyle(color: Colors.amberAccent, fontSize: 20.0),
-            )),
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      title: Text(_title),
+      centerTitle: true,
+      pinned: true,
+      backgroundColor: Colors.teal,
+      expandedHeight: 490.0,
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.vertical_align_top),
+          onPressed: () {
+            _scrollController.animateTo(
+              0.0,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 500),
+            );
+          },
+        )
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+          background: InkResponse(
+        enableFeedback: true,
+        onTap: () {
+          Navigator.push(
+            context,
+            RouteAnimation(widget: MoviesDetailsWidget(_movie)),
+          );
+        },
         child: Image.network(
           'https://image.tmdb.org/t/p/w185${_movie.posterPath}',
           fit: BoxFit.cover,
-        ));
-  }
-
-  @override
-  double get maxExtent => 500.0;
-
-  @override
-  double get minExtent => 0.0;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+        ),
+      )),
+    );
   }
 }
