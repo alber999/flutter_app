@@ -12,10 +12,9 @@ class MoviesHeaderWidget extends SliverPersistentHeaderDelegate {
         footer: GridTileBar(
             backgroundColor: Colors.black54,
             title: Text(_movie.originalTitle,
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0)),
-            subtitle: Text(_movie.overview,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.white, fontSize: 14.0)),
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24.0)),
+            subtitle:
+                Text(_movie.releaseDate, style: TextStyle(color: Colors.white, fontSize: 14.0)),
             trailing: Text(
               '${_movie.voteAverage}/10',
               style: new TextStyle(color: Colors.amberAccent, fontSize: 20.0),

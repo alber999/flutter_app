@@ -14,7 +14,7 @@ class MoviesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<MovieModel> movies = List.from(_paginatedMovies.movies);
     movies.removeAt(0);
-    
+
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
@@ -25,7 +25,7 @@ class MoviesWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 4.0, left: 0.0, right: 0.0, bottom: 70.0),
             sliver: SliverGrid(
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 180.0,
+                maxCrossAxisExtent: 190.0,
                 mainAxisSpacing: 0.0,
                 crossAxisSpacing: 0.0,
                 childAspectRatio: 0.75,
@@ -34,7 +34,7 @@ class MoviesWidget extends StatelessWidget {
                 (BuildContext context, int index) {
                   return Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(4.0),
+                      padding: EdgeInsets.all(2.0),
                       child: MoviesItemWidget(movies[index]));
                 },
                 childCount: movies.length,
